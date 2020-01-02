@@ -1,24 +1,78 @@
 <!doctype html>
 <html>
 <head>
-  <title>Markovs Algorithms</title>
-  <script src="{{ url_for('static', filename='script.js') }}"></script>
-  <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Markovs Algorithms</title>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="//cdn.muicss.com/mui-0.10.0/css/mui.min.css" rel="stylesheet" type="text/css"/>
+    <script src="//cdn.muicss.com/mui-0.10.0/js/mui.min.js"></script>
+    <script src="//code.jquery.com/jquery-3.4.1.slim.min.js"></script>
 </head>
 <body>
 
-  <h1>Markov's Algorithms</h1>
+<h1>Markov's Algorithms</h1>
 
-  <h2>Program</h2>
+<h2>Program</h2>
 
-  <form action="/start-program" method="post">
-    <textarea name="message" rows="10" cols="30">
-A>B
-B|>C
-    </textarea>
+<div id="content">
+
+    <form action="/start-program" method="post" class="mui-form">
+        <input type="hidden" name="message">
+    </form>
+
+    <div class="rows">
+        <div class="row">
+            <div class="mui-textfield from">
+                <input type="text" placeholder="Input 1">
+            </div>
+            <div class="mui-select action">
+                <select>
+                    <option value=">">&rarr;</option>
+                    <option value="|>">&rarrb;</option>
+                </select>
+            </div>
+            <div class="mui-textfield to">
+                <input type="text" placeholder="Input 2">
+            </div>
+        </div>
+    </div>
+
+    <div style="clear:both"></div>
+    <button id="plus" class="mui-btn mui-btn--raised">+</button>
     <br>
-    <input type="submit" name="Start">
-  </form>
+    <button id="submit" class="mui-btn mui-btn--raised">Start</button>
 
+</div>
+
+<script>
+    $("#plus").click(e => {
+        e.preventDefault()
+        $(".row").first().clone().appendTo(".rows")
+        $(".row").last().find("input").val("")
+    })
+
+    $("#submit").click(e => {
+        e.preventDefault()
+        let res = ""
+        $(".row").each((k, row) => {
+            let A = $.trim($(row).find("input").first().val())
+            let action = $(row).find("select").first().val()
+            let B = $.trim($(row).find("input").last().val())
+
+            if (A == "" && B == "") {
+                return
+            }
+            res = res + "\n" + A + action + B
+        })
+
+        if (res == "") {
+            alert("Add at least one step")
+            return
+        }
+
+        $("input[name=message]").val(res)
+        $("form").submit()
+    })
+</script>
 </body>
 </html>
