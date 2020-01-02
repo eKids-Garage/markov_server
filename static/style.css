@@ -1,4 +1,31 @@
 body {
-  font-family: "helvetica", sans-serif;
-  text-align: center;
+    font-family: "helvetica", sans-serif;
+    text-align: center;
+
+}
+
+#content {
+    width: 200px;
+    margin: 0 auto;
+}
+
+.row {
+    margin: auto;
+}
+
+.from {
+    float: left;
+    width: 60px;
+
+}
+
+.action {
+    float: left;
+    margin-left: 20px;
+}
+
+.to {
+    float: right;
+    width: 60px;
+
 }
