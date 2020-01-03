@@ -9,21 +9,29 @@
     <script src="//code.jquery.com/jquery-3.4.1.slim.min.js"></script>
 </head>
 <body>
-
+<form action="/start-program" method="post" class="mui-form">
+    <input type="hidden" name="message">
+</form>
 <h1>Markov's Algorithms</h1>
-
 <h2>Program</h2>
+
+{% if errors %}
+<div class="mui-panel error">
+    {% for message in get_error_messages() %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</div>
+{% endif %}
 
 <div id="content">
 
-    <form action="/start-program" method="post" class="mui-form">
-        <input type="hidden" name="message">
-    </form>
-
+    <div class="mui-textfield">
+        <input type="text" name="init" placeholder="Initial word">
+    </div>
     <div class="rows">
         <div class="row">
             <div class="mui-textfield from">
-                <input type="text" placeholder="Input 1">
+                <input type="text" placeholder="In">
             </div>
             <div class="mui-select action">
                 <select>
@@ -32,7 +40,7 @@
                 </select>
             </div>
             <div class="mui-textfield to">
-                <input type="text" placeholder="Input 2">
+                <input type="text" placeholder="Out">
             </div>
         </div>
     </div>
@@ -53,24 +61,29 @@
 
     $("#submit").click(e => {
         e.preventDefault()
-        let res = ""
+        let program = []
         $(".row").each((k, row) => {
             let A = $.trim($(row).find("input").first().val())
-            let action = $(row).find("select").first().val()
             let B = $.trim($(row).find("input").last().val())
 
             if (A == "" && B == "") {
                 return
             }
-            res = res + "\n" + A + action + B
+            program.push({
+                in: A,
+                out: B,
+                stop: $(row).find("select").first().val() === "|>"
+            })
         })
 
-        if (res == "") {
-            alert("Add at least one step")
+        if (program.length === 0) {
+            alert("Add at least one program instruction")
             return
         }
-
-        $("input[name=message]").val(res)
+        $("input[name=message]").val({
+            initial_word: $("input[name='init']").val(),
+            program: program
+        })
         $("form").submit()
     })
 </script>
