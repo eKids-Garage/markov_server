@@ -27,3 +27,4 @@ def parse_line(line):
             return (str(line).split(">", 1)[0], str(line).split(">", 1)[1], False)
         else:
             return () 
+
