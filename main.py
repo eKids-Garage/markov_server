@@ -16,7 +16,9 @@
 import datetime
 import json
 from flask import Flask, render_template, request, jsonify 
+from data import store_solution
 from interpreter import interpret, parse_line
+
 
 app = Flask(__name__)
 
@@ -34,12 +36,15 @@ def start_program():
     if request.method == 'POST':
         initial_word = json.loads(request.form['message'])['initial_word']
         program_lines = json.loads(request.form['message'])['program']
+        team = json.loads(request.form['message'])['team']
+        task = json.loads(request.form['message'])['task']
                 
         program = []
         for l in program_lines:
             program.append((l['in'], l['out'], l['stop']))
             
         # jsonify(interpret(initial_word, program, True))
+        # store_solution('test-team', 'test-task', program_lines)
         return render_template('index.html', response = interpret(initial_word, program, True))
     else: 
         return "Oops"
