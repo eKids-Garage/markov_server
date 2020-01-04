@@ -15,6 +15,12 @@
 <h1>Markov's Algorithms</h1>
 <h2>Program</h2>
 
+{% if response %}
+<div class="mui-panel error" style="color: blue">
+    <h3>Response: {{ response }}</h3>
+</div>
+{% endif %}
+
 {% if errors %}
 <div class="mui-panel error">
     {% for message in get_error_messages() %}
@@ -25,6 +31,13 @@
 
 <div id="content">
 
+    <div class="mui-textfield">
+        <input type="text" name="team" placeholder="TEAM">
+
+    </div>
+    <div class="mui-textfield">
+        <input type="text" name="task" placeholder="TASK">
+    </div>
     <div class="mui-textfield">
         <input type="text" name="init" placeholder="INITIAL WORD">
     </div>
@@ -49,7 +62,7 @@
     <button id="plus" class="mui-btn mui-btn--raised">+</button>
     <br>
     <button id="submit" class="mui-btn mui-btn--raised">Start</button>
-    <textarea name="message" rows="10" cols="30" placeholder="{{ response }}"></textarea>
+
 
 </div>
 
@@ -81,10 +94,14 @@
             alert("Add at least one program instruction")
             return
         }
-        $("input[name=message]").val(JSON.stringify({
-            initial_word: $("input[name='init']").val(),
-            program: program
-        }))
+        $("input[name=message]").val(JSON.stringify(
+            {
+                team: $("input[name='team']").val(),
+                task: $("input[name='task']").val(),
+                initial_word: $("input[name='init']").val(),
+                program: program
+            }
+        ))
         $("form").submit()
     })
 </script>

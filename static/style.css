@@ -29,8 +29,9 @@ body {
     width: 60px;
 
 }
+
 .error {
-    width: 90%;
-    color:red;
+    width: 70%;
+    color: red;
     margin: 0 auto;
 }
