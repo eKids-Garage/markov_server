@@ -26,6 +26,10 @@ def root():
     #return render_template('index.html', times=dummy_times)
     return render_template('index.html')
 
+@app.route('/help')
+def help():
+    return render_template('help.html')
+
 @app.route('/start-program', methods = ['POST'])
 def jsonexample():
 
