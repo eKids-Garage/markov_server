@@ -30,18 +30,17 @@ def help():
     return render_template('help.html')
 
 @app.route('/start-program', methods = ['POST'])
-def jsonexample():
+def start_program():
     if request.method == 'POST':
-        print(request.get_data())
-        program_text = json.loads(request.form['message'])
-        initial_word = program_text['initial_word']
-        program_lines = program_text['program']
+        initial_word = json.loads(request.form['message'])['initial_word']
+        program_lines = json.loads(request.form['message'])['program']
                 
         program = []
         for l in program_lines:
             program.append((l['in'], l['out'], l['stop']))
             
-        return jsonify(interpret(initial_word, program, True))
+        # jsonify(interpret(initial_word, program, True))
+        return render_template('index.html', response = interpret(initial_word, program, True))
     else: 
         return "Oops"
 
