@@ -1,9 +1,7 @@
-text = "A>B\nB|>C"
-
-def interpret(in_str, program, debug_mode = False):
+def interpret(in_str, program, debug_mode = False, limit = 1000):
     log = [(in_str)]
     while True:
-        stop = False
+        stop = True
         for instruction in program:
             if log[-1].find(instruction[0]) == -1:
                 continue
