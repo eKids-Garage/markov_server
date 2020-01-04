@@ -80,10 +80,10 @@
             alert("Add at least one program instruction")
             return
         }
-        $("input[name=message]").val({
+        $("input[name=message]").val(JSON.stringify({
             initial_word: $("input[name='init']").val(),
             program: program
-        })
+        }))
         $("form").submit()
     })
 </script>
