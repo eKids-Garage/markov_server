@@ -14,7 +14,7 @@
 
 # [START gae_python37_render_template]
 import datetime
-
+import json
 from flask import Flask, render_template, request, jsonify 
 from interpreter import interpret, parse_line
 
@@ -23,7 +23,6 @@ app = Flask(__name__)
 
 @app.route('/')
 def root():
-    #return render_template('index.html', times=dummy_times)
     return render_template('index.html')
 
 @app.route('/help')
@@ -32,15 +31,17 @@ def help():
 
 @app.route('/start-program', methods = ['POST'])
 def jsonexample():
-
     if request.method == 'POST':
-        lines = request.form['message'].splitlines()
-        
+        print(request.get_data())
+        program_text = json.loads(request.form['message'])
+        initial_word = program_text['initial_word']
+        program_lines = program_text['program']
+                
         program = []
-        for l in lines:
-            program.append(parse_line(l))
+        for l in program_lines:
+            program.append((l['in'], l['out'], l['stop']))
             
-        return jsonify(interpret("AAAA", program, True))
+        return jsonify(interpret(initial_word, program, True))
     else: 
         return "Oops"
 
